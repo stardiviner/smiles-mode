@@ -1,15 +1,14 @@
 ;;; smiles-mode.el --- Major mode for SMILES.
-;;; -*- coding: utf-8 -*-
+;; -*- coding: utf-8 -*-
 
 ;; Keywords: SMILES
 ;; Version: 0.0.1
+;; Author: John Kitchin [jkitchin@andrew.cmu.edu]
 
 ;;; Commentary:
 
-;;; I copy code from:
-;;; http://kitchingroup.cheme.cmu.edu/blog/2016/03/26/A-molecule-link-for-org-mode
-
-;; Author: John Kitchin [jkitchin@andrew.cmu.edu]
+;; I copy code from:
+;; http://kitchingroup.cheme.cmu.edu/blog/2016/03/26/A-molecule-link-for-org-mode
 
 ;;; Code:
 
@@ -36,29 +35,27 @@
            (buffer-string))))
 
 (defvar smiles-mode-map
-  nil
+  (make-sparse-keymap)
   "Keymap for smiles-mode.")
 
-;; adapted from http://ergoemacs.org/emacs/elisp_menu_for_major_mode.html
-(define-derived-mode smiles-mode fundamental-mode "smiles-mode"
+(define-key smiles-mode-map (kbd "C-c C-c") 'smiles-cml)
+(define-key smiles-mode-map (kbd "C-c C-n") 'smiles-names)
+
+(define-key smiles-mode-map [menu-bar] (make-sparse-keymap))
+
+(let ((menu-map (make-sparse-keymap "SMILES")))
+  (define-key smiles-mode-map [menu-bar smiles] (cons "SMILES" menu-map))
+
+  (define-key menu-map [cml]
+    '("CML" . smiles-cml))
+  (define-key menu-map [names]
+    '("Names" . smiles-names)))
+
+;;;###autoload
+(define-derived-mode smiles-mode fundamental-mode "☺"
   "Major mode for SMILES code."
-  (setq buffer-invisibility-spec '(t)
-        mode-name " ☺")
+  (setq buffer-invisibility-spec '(t)))
 
-  (when (not smiles-mode-map)
-    (setq smiles-mode-map (make-sparse-keymap)))
-  (define-key smiles-mode-map (kbd "C-c C-c") 'smiles-cml)
-  (define-key smiles-mode-map (kbd "C-c C-n") 'smiles-names)
-
-  (define-key smiles-mode-map [menu-bar] (make-sparse-keymap))
-
-  (let ((menuMap (make-sparse-keymap "SMILES")))
-    (define-key smiles-mode-map [menu-bar smiles] (cons "SMILES" menuMap))
-
-    (define-key menuMap [cml]
-      '("CML" . smiles-cml))
-    (define-key menuMap [names]
-      '("Names" . smiles-names))))
 
 
 (provide 'smiles-mode)
