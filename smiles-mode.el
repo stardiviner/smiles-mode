@@ -1,6 +1,9 @@
 ;;; smiles-mode.el --- Major mode for SMILES.
 ;;; -*- coding: utf-8 -*-
 
+;; Keywords: SMILES
+;; Version: 0.0.1
+
 ;;; Commentary:
 
 ;;; I copy code from:
